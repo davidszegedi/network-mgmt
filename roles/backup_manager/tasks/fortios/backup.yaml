@@ -1,0 +1,19 @@
+---
+- name: "fortios.backup: fetch network configuration"
+  fortios_config:
+    host: "{{ _fortios_host }}"
+    username: "{{ _fortios_username }}"
+    password: "{{ _fortios_password }}"
+  register: r_fortios_config
+
+- name: "fortios.backup: create folder structure"
+  file:
+    path: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config"
+    state: directory
+
+- name: "fortios.backup: copy configuration to repo folder"
+  copy:
+    content: "{{ r_fortios_config.running_config }}"
+    dest: "{{ r_tempfile.path }}/{{ inventory_hostname }}/config/running.cfg"
+    force: "yes"
+  notify: git_sync

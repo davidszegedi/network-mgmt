@@ -1,0 +1,6 @@
+---
+- name: "tmos: load configuration"
+  bigip_config:
+    server: "{{ ansible_host }}"
+    merge_content: "{{ lookup('file', config_compliance_source) }}"
+  notify: non_compliant

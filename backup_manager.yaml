@@ -1,0 +1,6 @@
+---
+- name: "Backup Management"
+  hosts: "{{ target_devices }}:&{{ target_role }}"
+  gather_facts: no
+  roles:
+    - role: "backup_manager"

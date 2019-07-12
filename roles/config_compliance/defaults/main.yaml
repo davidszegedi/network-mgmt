@@ -1,0 +1,3 @@
+---
+config_compliance_os: "{{ ansible_network_os }}"
+config_compliance_source: "nxos/default.cfg"

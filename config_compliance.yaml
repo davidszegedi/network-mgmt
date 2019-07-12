@@ -1,0 +1,6 @@
+---
+- name: "Config Compliance"
+  hosts: "{{ target_devices }}:&{{ target_role }}"
+  gather_facts: no
+  roles:
+    - role: "config_compliance"

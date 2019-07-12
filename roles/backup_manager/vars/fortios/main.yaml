@@ -1,0 +1,4 @@
+---
+_fortios_host: "{{ ansible_host }}"
+_fortios_username: "{{ lookup('ENV', 'FORTIOS_USERNAME') }}"
+_fortios_password: "{{ lookup('ENV', 'FORTIOS_PASSWORD') }}"

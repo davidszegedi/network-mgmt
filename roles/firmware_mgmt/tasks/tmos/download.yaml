@@ -1,0 +1,18 @@
+---
+- name: "tmos.download: create directory to store downloaded images"
+  run_once: true
+  changed_when: false
+  tempfile:
+    path: "/ansible/tmp"
+    state: directory
+    suffix: tmos_images
+  register: r_tempfile
+
+- name: "tmos.download: software image"
+  run_once: true
+  get_url:
+    validate_certs: no
+    url: "{{ firmware_mgmt_url }}/BIGIP.iso"
+    dest: "{{ r_tempfile.path }}/BIGIP.iso"
+    checksum: "md5:{{ firmware_mgmt_url }}/BIGIP.md5sum"
+  register: r_get_url_software

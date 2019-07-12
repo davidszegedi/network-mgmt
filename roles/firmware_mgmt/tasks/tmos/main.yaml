@@ -1,0 +1,35 @@
+---
+- name: "tmos.main: gather facts (devices)"
+  bigip_device_facts:
+    server: "{{ ansible_host }}"
+    gather_subset:
+      - "devices"
+  register: "r_bigip_device_facts_devices"
+
+- name: "tmos.main: set ansible_net_version for self"
+  vars:
+     # filter myself from the list of devices in facts.
+    _bigip_device_facts_self_device: "{{ r_bigip_device_facts_devices.devices | selectattr('self', 'match', 'yes') | first }}"
+  set_fact:
+    # Normalize the variable name
+    ansible_net_version: "{{ _bigip_device_facts_self_device.software_version }}"
+
+- name: "pre tasks"
+  when: ansible_net_version != firmware_mgmt_version
+  include_tasks: "pre.yaml"
+
+- name: "download tasks"
+  when: ansible_net_version != firmware_mgmt_version
+  include_tasks: "download.yaml"
+
+- name: "upload tasks"
+  when: ansible_net_version != firmware_mgmt_version
+  include_tasks: "upload.yaml"
+
+- name: "install tasks"
+  when: ansible_net_version != firmware_mgmt_version
+  include_tasks: "install.yaml"
+
+- name: "post tasks"
+  when: ansible_net_version != firmware_mgmt_version
+  include_tasks: "post.yaml"

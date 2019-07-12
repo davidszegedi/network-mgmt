@@ -1,0 +1,10 @@
+---
+- name: "nxos: load configuration"
+  nxos_config:
+    defaults: true
+    src: "{{ config_compliance_source }}"
+    diff_against: "running"
+    diff_ignore_lines:
+      - '^(Current|Building) configuration.*'
+      - '^\!.*'
+  notify: non_compliant

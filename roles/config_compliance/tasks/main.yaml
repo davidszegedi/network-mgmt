@@ -1,0 +1,9 @@
+---
+- name: "call specific tasks"
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - skip: true
+      files:
+        - "{{ config_compliance_os }}/{{ config_compliance_platform }}/{{ config_compliance_version }}/main.yaml"
+        - "{{ config_compliance_os }}/{{ config_compliance_platform }}/main.yaml"
+        - "{{ config_compliance_os }}/main.yaml"

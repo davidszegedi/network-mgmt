@@ -1,0 +1,5 @@
+---
+- name: "Non compliant configuration identified"
+  listen: non_compliant
+  fail:
+    msg: "/!\\ Configuration is not compliant /!\\"

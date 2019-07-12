@@ -1,0 +1,12 @@
+---
+- name: "Bascule F5 Corpex"
+  hosts: "{{ target_devices }}:&{{ target_role }}"
+  gather_facts: no
+  
+  tasks:
+    - name: "Collect Big Ip facts"
+      bigip_device_facts:
+        server: "{{ ansible_host }}"
+        gather_subset:
+        - interfaces
+        - vlans

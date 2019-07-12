@@ -1,0 +1,40 @@
+---
+- name: "bigip_member_pool"
+  hosts: "{{ target_devices }}:&primary"
+  gather_facts: false
+  vars:
+      bigip_pool_name: "poc-tower-pool"
+      bigip_pool_partition: "Common"
+      bascule_mode: "100_0"
+      bascule_mode_map:
+        100_0:
+          - node: "poc-tower-node1"
+            port: "80"
+            state: "enabled"
+          - node: "poc-tower-node2"
+            port: "80"
+            state: "disabled"
+        50_50:
+          - node: "poc-tower-node1"
+            port: "80"
+            state: "enabled"
+          - node: "poc-tower-node2"
+            port: "80"
+            state: "enabled"
+        0_100:
+          - node: "poc-tower-node1"
+            port: "80"
+            state: "disabled"
+          - node: "poc-tower-node2"
+            port: "80"
+            state: "disabled"
+  tasks:
+    - name: "bascule nodes pool"
+      bigip_pool_member:
+        server: "{{ ansible_host }}"
+        pool: "{{ bigip_pool_name }}"
+        partition: "{{ bigip_pool_partition }}"
+        name: "{{ item.node }}"
+        state: "{{ item.state }}"
+        port: "{{ item.port }}"
+      loop: "{{ bascule_mode_map[bascule_mode] | default([]) }}"

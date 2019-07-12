@@ -1,0 +1,24 @@
+---
+- name: "nxos.main: gather facts"
+  nxos_facts:
+  register: "r_nxos_facts"
+
+- name: "pre tasks"
+  when: r_nxos_facts['ansible_net_version'] != firmware_mgmt_version
+  include_tasks: "pre.yaml"
+
+- name: "download tasks"
+  when: r_nxos_facts['ansible_net_version'] != firmware_mgmt_version
+  include_tasks: "download.yaml"
+
+- name: "upload tasks"
+  when: r_nxos_facts['ansible_net_version'] != firmware_mgmt_version
+  include_tasks: "upload.yaml"
+
+- name: "install tasks"
+  when: r_nxos_facts['ansible_net_version'] != firmware_mgmt_version
+  include_tasks: "install.yaml"
+
+- name: "post tasks"
+  when: r_nxos_facts['ansible_net_version'] != firmware_mgmt_version
+  include_tasks: "post.yaml"

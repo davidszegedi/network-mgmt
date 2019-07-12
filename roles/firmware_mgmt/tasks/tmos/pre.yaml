@@ -1,0 +1,7 @@
+---
+- name: "tmos.pre: collect states"
+  bigip_command:
+    server: "{{ ansible_host }}"
+    commands:
+      - "show sys version"
+  register: "r_pre_bigip_command_collect_states"
